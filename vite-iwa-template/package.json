@@ -1,0 +1,21 @@
+{
+  "name": "vite-iwa-template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "prettier -w ."
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.0",
+    "prettier": "^3.6.2",
+    "rollup-plugin-webbundle": "^0.2.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vite-plugin-html-inject": "^1.1.2",
+    "wbn-sign": "^0.2.1"
+  }
+}

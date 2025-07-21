@@ -1,0 +1,17 @@
+
+{
+  "id": "/",
+  "name": "Isolated Web App - Vite + TS",
+  "short_name": "IWA-Sample",
+  "version": "0.0.0",
+  "start_url": "/",
+
+  "icons": [
+    {
+      "src": "/images/icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
