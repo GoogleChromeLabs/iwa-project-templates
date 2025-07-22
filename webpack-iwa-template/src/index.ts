@@ -15,7 +15,6 @@
  */
 
 import "./style.css";
-import "../public/.well-known/manifest.webmanifest";
 
 const parent_container: HTMLDivElement | null = document.querySelector("#app");
 
