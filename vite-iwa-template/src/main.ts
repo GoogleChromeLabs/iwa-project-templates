@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import './style.css';
+import "./style.css";
 
-const parent_container: (HTMLDivElement | null) = document.querySelector('#app');
+const parent_container = document.querySelector("#app") as HTMLDivElement;
 
-function deleteChildNodes(container: HTMLDivElement): void{
-    while(container.firstChild){
-        container.removeChild(container.firstChild);
-    }
+function deleteChildNodes(container: HTMLDivElement): void {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
 }
 
 /**
@@ -29,79 +29,74 @@ function deleteChildNodes(container: HTMLDivElement): void{
  * It first clears the container to prevent duplicate content.
  */
 function loadOnlineContent() {
-    if (!parent_container) {
-        console.error("App container not found!");
-        return;
-    }
+  deleteChildNodes(parent_container);
 
-    deleteChildNodes(parent_container);
+  const icon_elements: [string, string][] = [
+    [
+      "https://upload.wikimedia.org/wikipedia/commons/f/f1/Vitejs-logo.svg",
+      "https://vite.dev/",
+    ],
+    [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/250px-Typescript_logo_2020.svg.png",
+      "https://www.typescriptlang.org/docs/",
+    ],
+    [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg",
+      "https://chromeos.dev/en/web/isolated-web-apps",
+    ],
+  ];
 
-    const image_urls: string[] = [
-        'https://upload.wikimedia.org/wikipedia/commons/f/f1/Vitejs-logo.svg',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/250px-Typescript_logo_2020.svg.png',
-        'https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg'
-    ];
+  for (const [icon_url, href_url] of icon_elements) {
+    const href_element: HTMLAnchorElement = document.createElement("a");
+    href_element.href = href_url;
 
-    const href_urls: string[] = [
-        'https://vite.dev/',
-        'https://www.typescriptlang.org/docs/',
-        'https://chromeos.dev/en/web/isolated-web-apps'
-    ]
+    const img_element: HTMLImageElement = document.createElement("img");
+    img_element.crossOrigin = "anonymous";
+    img_element.classList.add("logo");
+    img_element.src = icon_url;
 
-    for (let i = 0; i < image_urls.length; i++) {
-        const href_element: HTMLAnchorElement = document.createElement('a');
-        href_element.href = href_urls[i]
-        const img_element: HTMLImageElement = document.createElement('img');
-        img_element.crossOrigin = 'anonymous';
-        img_element.classList.add('logo')
-        img_element.src = image_urls[i];
-        
-        href_element.appendChild(img_element)
-        parent_container.appendChild(href_element);
-    }
+    href_element.appendChild(img_element);
+    parent_container.appendChild(href_element);
+  }
 
-    const title = document.createElement('h1');
-    title.textContent = 'Isolated Web App built with Vite and Typescript.';
+  const title = document.createElement("h1");
+  title.textContent = "Isolated Web App built with Vite and Typescript.";
 
-    parent_container?.appendChild(title);
+  parent_container.appendChild(title);
 
-    const p_docs = document.createElement('p');
-    p_docs.classList.add('read-the-docs');
-    p_docs.textContent = "Learn more by clicking the logos.";
-    parent_container.appendChild(p_docs);
+  const p_docs = document.createElement("p");
+  p_docs.classList.add("read-the-docs");
+  p_docs.textContent = "Learn more by clicking the logos.";
+  parent_container.appendChild(p_docs);
 }
 
 /**
  * Displays an offline message in the app container.
  */
 function showOfflineMessage() {
-    if (!parent_container) return;
-    deleteChildNodes(parent_container);
-    const p_offline = document.createElement('p');
+  deleteChildNodes(parent_container);
+  const p_offline = document.createElement("p");
 
+  const title = document.createElement("h1");
+  title.textContent = "Isolated Web App built with Vite and Typescript.";
 
-    const title = document.createElement('h1');
-    title.textContent = 'Isolated Web App built with Vite and Typescript.';
+  parent_container.appendChild(title);
 
-    parent_container?.appendChild(title);
-
-
-    p_offline.classList.add('read-the-docs');
-    p_offline.textContent = "You are offline. Please check your connection.";
-    parent_container.appendChild(p_offline);
+  p_offline.classList.add("read-the-docs");
+  p_offline.textContent = "You are offline. Please check your connection.";
+  parent_container.appendChild(p_offline);
 }
 
-
-window.addEventListener('online', () => {
-    loadOnlineContent();
+window.addEventListener("online", () => {
+  loadOnlineContent();
 });
 
-window.addEventListener('offline', () => {
-    showOfflineMessage();
+window.addEventListener("offline", () => {
+  showOfflineMessage();
 });
 
 if (navigator.onLine) {
-    loadOnlineContent();
+  loadOnlineContent();
 } else {
-    showOfflineMessage();
+  showOfflineMessage();
 }
