@@ -1,5 +1,6 @@
 {
   "name": "vite-iwa-template",
+  "short_name": "IWA-Vite",
   "private": true,
   "version": "0.0.0",
   "type": "module",
