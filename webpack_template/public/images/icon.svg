@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 124 124" fill="none">
+  <!-- Background with top-left and bottom-right rounded corners -->
+  <path 
+    d="
+      M48,0 
+      H124 
+      V76 
+      A48,48 0 0 1 76,124 
+      H0 
+      V48 
+      A48,48 0 0 1 48,0 
+      Z
+    " 
+    fill="#4285f4"/>
+    <path d="M62,48 L42,68 L62,68 Z" fill="#0057e7"/>
+  <path d="M42,68 L62,98 L62,68 Z" fill="#008744"/>
+  <path d="M62,98 L82,68 L62,68 Z" fill="#d62d20"/>
+  <path d="M82,68 L62,48 L62,68 Z" fill="#ffa700"/>
+
+
+  <circle cx="85" cy="20" r="6" fill="#ffa700"/> <!-- Blue, largest -->
+  <circle cx="73" cy="23" r="5" fill="#0057e7"/> <!-- Red, medium -->
+  <circle cx="85" cy="32" r="4" fill="#d62d20"/> <!-- Orange, smaller -->
+  <circle cx="72" cy="37" r="8" fill="#008744"/> <!-- Orange, smaller -->
+  <circle cx="62" cy="105" r="3" fill="white"/>
+
+</svg>
