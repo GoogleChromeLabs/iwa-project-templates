@@ -25,50 +25,59 @@ import dotenv from "dotenv";
 dotenv.config();
 const plugins = [injectHTML()];
 
-if (process.env.NODE_ENV === "production") {
-  //Get key and decrypt it
+const PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
+const PRIVATE_KEY_PASSWORD = process.env.PRIVATE_KEY_PASSWORD;
+const NODE_ENV = process.env.NODE_ENV;
+const PORT = process.env.PORT;
 
-  const key = wbnSign.parsePemKey(
-    process.env.KEY || fs.readFileSync("encrypted_key.pem"),
-    process.env.KEY_PASSWORD ||
-      (await wbnSign.readPassphrase("encrypted_key.pem")),
-  );
+if (!PRIVATE_KEY_PATH && NODE_ENV == "production") {
+    throw Error("Build Failed: Specify PRIVATE_KEY_PATH in your .env file");
+}
 
-  plugins.push({
-    ...wbn({
-      // Ensures the web bundle is signed as an isolated web app
-      baseURL: new wbnSign.WebBundleId(key).serializeWithIsolatedWebAppOrigin(),
-      // Ensure that all content in the `public` directory is included in the web bundle
-      static: {
-        dir: "public",
-      },
-      // The name of the output web bundle
-      output: "iwa-template.swbn",
-      // This ensures the web bundle is signed with the key
-      integrityBlockSign: {
-        strategy: new wbnSign.NodeCryptoSigningStrategy(key),
-      },
-    }),
-    enforce: "post",
-  });
+if (NODE_ENV === "production") {
+    //Get key and decrypt it
+
+    const key = wbnSign.parsePemKey(
+        fs.readFileSync(PRIVATE_KEY_PATH),
+        PRIVATE_KEY_PASSWORD || (await wbnSign.readPassphrase(PRIVATE_KEY_PATH)),
+    );
+
+    plugins.push({
+        ...wbn({
+            // Ensures the web bundle is signed as an isolated web app
+            baseURL: new wbnSign.WebBundleId(key).serializeWithIsolatedWebAppOrigin(),
+            // Ensure that all content in the `public` directory is included in the web bundle
+            static: {
+                dir: "public",
+            },
+            // The name of the output web bundle
+            output: "iwa-template.swbn",
+            // This ensures the web bundle is signed with the key
+            integrityBlockSign: {
+                strategy: new wbnSign.NodeCryptoSigningStrategy(key),
+            },
+        }),
+        enforce: "post",
+    });
 }
 
 export default defineConfig({
-  plugins,
-  server: {
-    port: 4321,
-    hmr: {
-      protocol: "ws",
-      host: "localhost",
-      clientPort: 4321,
+    plugins,
+    server: {
+        // Fallback to 4321, if PORT is not specified in .env
+        port: PORT || 4321,
+        hmr: {
+            protocol: "ws",
+            host: "localhost",
+            clientPort: PORT || 4321,
+        },
     },
-  },
 
-  build: {
-    rollupOptions: {
-      input: {
-        main: "./index.html",
-      },
+    build: {
+        rollupOptions: {
+            input: {
+                main: "./index.html",
+            },
+        },
     },
-  },
 });
