@@ -1,0 +1,15 @@
+{
+    "id": "/",
+    "name": "Isolated Web App - Webpack + TS",
+    "short_name": "IWA-Sample",
+    "version": "0.0.0",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "../images/icon.svg",
+            "type": "image/svg+xml",
+            "sizes": "any",
+            "purpose": "any maskable"
+        }
+    ]
+}
