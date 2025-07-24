@@ -137,7 +137,7 @@ There are two fields that should be included, `version` and `update_manifest_url
 
 - How to add API Permissions?
 
-By default, IWA block all permission request, you can opt-in to a permission you need by specifying
+By default, Chrome blocks all permission requests from IWAs. You can opt-in to permission policies you need by specifying
 a `permissions_policy` field in your manifest.
 
 _Note: Adding a permission here does not automatically grant it, it just makes it avaliable to be
