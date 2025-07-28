@@ -1,6 +1,6 @@
 ## Prerequisites
 
-- Google Chrome 120+
+- Google Chrome 140+
 
 - openssl
 
@@ -20,7 +20,7 @@ Open Google Chrome, go to `chrome://flags` and enable
 
     chrome://flags/#enable-isolated-web-app-dev-mode
 
-    chrome://flags/#enable-isolated-web-apps
+    chrome://flags/#enable-isolated-web-apps (Windows/macOS/Linux only)
 
 Once enabled, and chrome is restarted, go to `chrome://web-app-internals`, the web app internals
 page. This page shows you the web apps you have installed, including Isolated Web Apps and
@@ -100,9 +100,8 @@ slu74sbybztfypa43w7f7rd34cbhautjcrfegz5lbow7vmwjojbqaaic).
 
 _Note: Your web bundle ID will look differently, this is just an example_
 
-Since IWA are using a different schema `isolated-app://` instead of `https://`, you can access it by
-pasting `isolated-app://your-web-bundle-id` in Chrome, or by running it like any other app on your
-computer.
+To launch your newly installed IWA, use chrome://apps page (Windows/macOS/Linux), or run it like any other application on your computer.
+Alternatively, you could paste isolated-app://your-web-bundle-id in Chrome.
 
 ### Personalizing this template
 
@@ -120,8 +119,7 @@ Related information:
 
 Isolated Web Apps share the same
 [Manifest Properties](https://web.dev/articles/add-manifest#manifest-properties) as Progressive Web
-Apps, with some slight variations, see:
-[Isolated Web Apps explainer - Web App manifest section](https://chromeos.dev/en/web/isolated-web-apps)
+Apps, with some slight variations:
 
 There are two fields that should be included, `version` and `update_manifest_url`
 
@@ -150,7 +148,7 @@ granted, when a request for that capacity is made._
 Related Information
 
 - [Permissions Policy - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Permissions_Policy#allowlists)
-- [Permissions Policy header - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Permissions_Policy#allowlists)
+- [Permissions Policy header - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy)
 - [Web Application Manifest - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest)
 
 ### Related Information
