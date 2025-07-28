@@ -23,11 +23,7 @@ jobs:
         run: |
           npm install --global prettier
           # The --write flag modifies files in-place
-          prettier --write . --config .prettierrc
 
-      - name: Commit formatted files
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "style: Auto-format files with Prettier"
-          # Defaults to the current branch.
-          # For pull requests, this commits to the head branch.
+          echo -e "node_modules\n.github" > .prettierignore
+
+          prettier --check . --config .prettierrc
