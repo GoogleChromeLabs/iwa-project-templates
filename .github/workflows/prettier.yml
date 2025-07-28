@@ -1,0 +1,33 @@
+name: 'Lint and Format'
+
+# This workflow runs on pushes to any branch
+# and on any pull request
+on:
+  [push, pull_request]
+
+jobs:
+  prettier-format-commit:
+    name: Prettier format and commit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Prettier and format files
+        run: |
+          npm install --global prettier
+          # The --write flag modifies files in-place
+          prettier --write . --config .prettierrc
+
+      - name: Commit formatted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: Auto-format files with Prettier"
+          # Defaults to the current branch.
+          # For pull requests, this commits to the head branch.

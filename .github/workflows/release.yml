@@ -1,0 +1,113 @@
+name: "Create Release"
+
+on:
+  # Allows manual triggering of the workflow to create a release.
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.2.3)'
+        required: true
+        type: string
+
+jobs:
+  build_vite:
+    name: Build Vite Template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          cd vite-iwa-template
+          npm install
+
+      - name: Generate private keys and build
+        run: |
+          cd vite-iwa-template
+          export KEY_PASSWORD=$(openssl rand -base64 32)
+          openssl genpkey -algorithm Ed25519 -out private_key.pem
+          openssl pkcs8 -in private_key.pem -topk8 -out encrypted_key.pem -passout env:KEY_PASSWORD
+          echo "PRIVATE_KEY_PATH=encrypted_key.pem" > .env
+          echo "PRIVATE_KEY_PASSWORD=$KEY_PASSWORD" >> .env
+          echo "NODE_ENV='production'" >> .env
+          rm private_key.pem
+          npm run build
+          rm -rf node_modules dist encrypted_key.pem .env
+
+      - name: Zip project folder
+        run: (cd vite-iwa-template && zip -r ../vite-template.zip .)
+
+      - name: Upload Vite artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-template-artifact
+          path: vite-template.zip
+
+  build_webpack:
+    name: Build Webpack Template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: |
+          cd webpack-iwa-template
+          npm install
+
+      - name: Generate private keys and build
+        run: |
+          cd webpack-iwa-template
+          export KEY_PASSWORD=$(openssl rand -base64 32)
+          openssl genpkey -algorithm Ed25519 -out private_key.pem
+          openssl pkcs8 -in private_key.pem -topk8 -out encrypted_key.pem -passout env:KEY_PASSWORD
+          echo "PRIVATE_KEY_PATH=encrypted_key.pem" > .env
+          echo "PRIVATE_KEY_PASSWORD=$KEY_PASSWORD" >> .env
+          rm private_key.pem
+          npm run build
+          rm -rf node_modules dist encrypted_key.pem .env
+
+      - name: Zip project folder content
+        run: (cd webpack-iwa-template && zip -r ../webpack-template.zip .)
+
+      - name: Upload Webpack artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webpack-template-artifact
+          path: webpack-template.zip
+
+  create_release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build_vite, build_webpack]
+    permissions:
+      contents: write
+    steps:
+      - name: Download Vite artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vite-template-artifact
+
+      - name: Download Webpack artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: webpack-template-artifact
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
+          artifacts: "vite-template.zip,webpack-template.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,66 @@
+name: "Build Checks"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check_vite:
+    name: Check Vite Template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies, generate keys, and build
+        run: |
+          cd vite-iwa-template
+          npm install
+          
+          # Generate keys required for the build process
+          export KEY_PASSWORD=$(openssl rand -base64 32)
+          openssl genpkey -algorithm Ed25519 -out private_key.pem
+          openssl pkcs8 -in private_key.pem -topk8 -out encrypted_key.pem -passout env:KEY_PASSWORD
+          
+          # Create the .env file for the build
+          echo "PRIVATE_KEY_PATH=encrypted_key.pem" > .env
+          echo "PRIVATE_KEY_PASSWORD=$KEY_PASSWORD" >> .env
+          echo "NODE_ENV='production'" >> .env
+          
+          # Run the build
+          npm run build
+
+  check_webpack:
+    name: Check Webpack Template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies, generate keys, and build
+        run: |
+          cd webpack-iwa-template
+          npm install
+          
+          # Generate keys required for the build process
+          export KEY_PASSWORD=$(openssl rand -base64 32)
+          openssl genpkey -algorithm Ed25519 -out private_key.pem
+          openssl pkcs8 -in private_key.pem -topk8 -out encrypted_key.pem -passout env:KEY_PASSWORD
+          
+          # Create the .env file for the build
+          echo "PRIVATE_KEY_PATH=encrypted_key.pem" > .env
+          echo "PRIVATE_KEY_PASSWORD=$KEY_PASSWORD" >> .env
+
+          # Run the build
+          npm run build
