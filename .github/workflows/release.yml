@@ -40,6 +40,9 @@ jobs:
           npm run build
           rm -rf node_modules dist encrypted_key.pem .env
 
+      - name: Add README.md to template folder
+        run: cp README.md vite-iwa-template/README.md
+
       - name: Zip project folder
         run: (cd vite-iwa-template && zip -r ../vite-template.zip .)
 
@@ -77,6 +80,9 @@ jobs:
           rm private_key.pem
           npm run build
           rm -rf node_modules dist encrypted_key.pem .env
+
+      - name: Add README.md to template folder
+        run: cp README.md webpack-iwa-template/README.md
 
       - name: Zip project folder content
         run: (cd webpack-iwa-template && zip -r ../webpack-template.zip .)
