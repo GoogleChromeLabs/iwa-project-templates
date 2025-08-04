@@ -22,8 +22,5 @@ jobs:
       - name: Run Prettier and format files
         run: |
           npm install --global prettier
-          # The --write flag modifies files in-place
-
-          echo -e "node_modules\n.github" > .prettierignore
 
           prettier --check . --config .prettierrc
