@@ -16,16 +16,15 @@ describe("E2E Tests", () => {
     let manifestID: string;
 
     const bundlePath = path.join(process.cwd(), "dist", "iwa-template.swbn");
-    const flags = "--enable-features=IsolatedWebApps,IsolatedWebAppDevMode";
     test("IWA Should be installed and launched correctly", async () => {
         const bundleContent = new Uint8Array(await fs.promises.readFile(bundlePath));
         manifestID = wbnSign.getBundleId(bundleContent);
 
         browser = await puppeteer.launch({
-            executablePath: "/usr/bin/google-chrome",
+            executablePath: puppeteer.executablePath('chrome'),
             headless: false,
             pipe: true,
-            args: [flags],
+            args: ["--enable-features=IsolatedWebApps,IsolatedWebAppDevMode"],
         });
 
         session = await browser.target().createCDPSession();

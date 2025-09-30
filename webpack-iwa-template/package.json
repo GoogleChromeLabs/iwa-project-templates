@@ -12,6 +12,7 @@
     },
     "license": "Apache-2.0",
     "devDependencies": {
+        "@puppeteer/browsers": "^2.10.10",
         "@types/jest": "^30.0.0",
         "@types/trusted-types": "^2.0.7",
         "copy-webpack-plugin": "^13.0.0",
