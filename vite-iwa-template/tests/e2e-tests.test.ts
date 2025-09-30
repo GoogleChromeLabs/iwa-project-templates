@@ -4,7 +4,7 @@ import * as wbnSign from "wbn-sign";
 import * as fs from "fs";
 
 /*
-  If you want to debug E2E tests, you will need to either create a custom debug launch configuration
+  If you want to debug E2E tests, you will need to create a custom debug launch configuration
   https://code.visualstudio.com/docs/debugtest/debugging-configuration
 
   Alternatively, you can use a test runner extension. 
@@ -21,7 +21,7 @@ describe("E2E Tests", () => {
         manifestID = wbnSign.getBundleId(bundleContent);
 
         browser = await puppeteer.launch({
-            executablePath: puppeteer.executablePath('chrome'),
+            executablePath: puppeteer.executablePath("chrome"),
             headless: false,
             pipe: true,
             args: ["--enable-features=IsolatedWebApps,IsolatedWebAppDevMode"],
