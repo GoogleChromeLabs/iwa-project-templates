@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "types": ["trusted-types"],
+        "types": ["trusted-types", "jest"],
         "outDir": "./dist/",
         "sourceMap": true,
         "noImplicitAny": true,
@@ -9,5 +9,6 @@
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node"
-    }
+    },
+    "include": ["src", "tests"]
 }
