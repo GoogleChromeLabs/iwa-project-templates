@@ -1,6 +1,6 @@
 # IWA project templates
 
-This project will contain templates that could be used for creation of new Isolated Web Apps (IWAs)
+This project contains templates that could be used for creation of new Isolated Web Apps (IWAs)
 projects.
 
 ## Prerequisites
@@ -15,9 +15,9 @@ projects.
 
 Clone this repository:
 
-    git clone ADD_LINK_HERE
+    git clone https://github.com/GoogleChromeLabs/iwa-project-templates
 
-    cd iwa_vite_template
+    cd vite-iwa-template
 
     npm install
 
@@ -83,9 +83,6 @@ Next, create a .env file containing:
     PRIVATE_KEY_PATH='PATH_TO_YOUR_ENCRYPTED_KEY'
     PRIVATE_KEY_PASSWORD='YOUR_KEY_PASSWORD'
     PORT=YOUR_PORT
-
-_Note: If you're using vite, also declare a variable called NODE_ENV, you can set it to either
-production/development_
 
 _Note: If you don't specify PORT, the app will fall back to default value (4321)_
 
